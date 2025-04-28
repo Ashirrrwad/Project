@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DSA | Bit Manipulation </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .question-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .question-table th, .question-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    .question-table th {
+      background-color: #f2f2f2;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #eee;
+      height: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      transition: width 0.4s ease;
+    }
+    .note-input {
+      display: none;
+      width: 90%;
+      margin-top: 5px;
+    }
+    .emoji-btn {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .bookmarked {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Bit Manipulation - Practice Questions</h1>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Questions Table -->
+  <table class="question-table" id="questionsTable">
+    <thead>
+      <tr>
+        <th>✅</th>
+        <th>📋 Question</th>
+        <th>🔖 Bookmark</th>
+        <th>📝 Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Questions will be injected here -->
+    </tbody>
+  </table>
+
+  <script>
+    const questions = [
+      "What is Bit Manipulation?",
+      "Find the only non-repeating element in an array where every element appears twice except for one.",
+      "Count the number of 1’s in the binary representation of a number.",
+      "Check if a number is a power of two.",
+      "Swap two numbers without using a third variable.",
+      "Find the XOR of all numbers in an array.",
+      "Find the missing number in an array of consecutive numbers.",
+      "Convert a number to its binary representation.",
+      "Find the position of the rightmost set bit in a number.",
+      "Perform bitwise AND, OR, and XOR on two numbers."
+    ];
+
+    let completedCount = 0;
+
+    const tableBody = document.querySelector("#questionsTable tbody");
+    const progressFill = document.getElementById("progressFill");
+
+    function updateProgress() {
+      const percent = (completedCount / questions.length) * 100;
+      progressFill.style.width = percent + "%";
+    }
+
+    function createQuestionRow(index, questionText) {
+      const row = document.createElement("tr");
+
+      // Tickbox
+      const tickCell = document.createElement("td");
+      const tickInput = document.createElement("input");
+      tickInput.type = "checkbox";
+      tickInput.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          completedCount++;
+        } else {
+          completedCount--;
+        }
+        updateProgress();
+      });
+      tickCell.appendChild(tickInput);
+      row.appendChild(tickCell);
+
+      // Question Text
+      const questionCell = document.createElement("td");
+      questionCell.innerText = questionText;
+      row.appendChild(questionCell);
+
+      // Bookmark
+      const bookmarkCell = document.createElement("td");
+      const bookmarkBtn = document.createElement("span");
+      bookmarkBtn.innerText = "🔖";
+      bookmarkBtn.classList.add("emoji-btn");
+      bookmarkBtn.addEventListener("click", () => {
+        row.classList.toggle("bookmarked");
+      });
+      bookmarkCell.appendChild(bookmarkBtn);
+      row.appendChild(bookmarkCell);
+
+      // Notes
+      const notesCell = document.createElement("td");
+      const noteBtn = document.createElement("span");
+      noteBtn.innerText = "📝";
+      noteBtn.classList.add("emoji-btn");
+      const noteInput = document.createElement("textarea");
+      noteInput.className = "note-input";
+      notesCell.appendChild(noteBtn);
+      notesCell.appendChild(noteInput);
+
+      noteBtn.addEventListener("click", () => {
+        noteInput.style.display = noteInput.style.display === "block" ? "none" : "block";
+      });
+
+      row.appendChild(notesCell);
+
+      tableBody.appendChild(row);
+    }
+
+    // Populate the questions
+    questions.forEach((question, index) => {
+      createQuestionRow(index, question);
+    });
+  </script>
+
+</body>
+</html>

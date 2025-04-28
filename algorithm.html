@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Sort | Arankerzz</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f4f4f4;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .topic-header {
+      text-align: center;
+    }
+
+    .progress-container {
+      margin: 20px 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 25px;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0;
+      background-color: #4caf50;
+      border-radius: 5px;
+    }
+
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .card {
+      background-color: #f9f9f9;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .card:hover {
+      transform: scale(1.05);
+    }
+
+    .card-title {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .card-description {
+      font-size: 16px;
+      margin-top: 10px;
+    }
+
+    .start-btn {
+      background-color: #2196f3;
+      color: #fff;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 3rem;
+      margin-bottom: 10px;
+      width: 40%;
+      margin-left: 4.5rem;
+    }
+
+    .start-btn:hover {
+      background-color: #387ec9;
+    }
+
+    .checkbox-container {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .checkbox-container input {
+      margin-right: 10px;
+    }
+
+    button {
+      background-color: #f44336;
+      color: #fff;
+      padding: 10px;
+      border: none;
+      cursor: pointer;
+      margin-left: 42%;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #d32f2f;
+    }
+
+    /* Make the grid responsive */
+    @media (max-width: 768px) {
+      .card-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .card-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>The Algorithm Library</h1>
+
+    <div class="topic-header">
+      <h2>"Master Key Algorithms for Placements"</h2>
+      <p>Start Learning</p>
+    </div>
+
+    <!-- Progress Bar for Quick Sort -->
+    <div class="progress-container">
+      <p>Progress: </p>
+      <div class="progress-bar">
+        <div class="progress-fill" id="quick-sort-progress"></div>
+      </div>
+    </div>
+
+    <!-- Cards for Algorithms -->
+    <div class="card-container" id="cardContainer">
+      <!-- Cards will be dynamically added here -->
+    </div>
+
+    <button onclick="resetProgress()">Reset Progress</button>
+  </div>
+
+  <script>
+    const topics = [
+      { name: "Quick Sort", description: "A fast sorting algorithm that uses divide and conquer.", completed: false },
+      { name: "Merge Sort", description: "A sorting algorithm that divides the list into sublists, sorts them, and merges them.", completed: false },
+      { name: "Binary Search", description: "An efficient algorithm for finding an item from a sorted list.", completed: false },
+      { name: "Dijkstra's Algorithm", description: "An algorithm for finding the shortest paths between nodes in a graph.", completed: false },
+      { name: "Radix Sort", description: "A non-comparative integer sorting algorithm.", completed: false },
+      { name: "Greedy Algorithms", description: "Solving problems by selecting the best option available at each step.", completed: false },
+      { name: "Prim's Algorithm", description: "An algorithm for finding a minimum spanning tree.", completed: false },
+      { name: "Knapsack Problem", description: "An optimization problem where the goal is to maximize the total value.", completed: false },
+    ];
+
+    const container = document.getElementById("cardContainer");
+
+    function createCards() {
+      topics.forEach((topic, index) => {
+        const card = document.createElement("div");
+        card.className = "card";
+
+        // Card content
+        card.innerHTML = `
+          <div class="card-title">${topic.name}</div>
+          <div class="card-description">${topic.description}</div>
+          <a href="${topic.name.toLowerCase().replace(/\s+/g, '-')}.html">
+            <button class="start-btn">Start Now</button>
+          </a>
+          <div class="checkbox-container">
+            <input type="checkbox" id="topic-${index}" class="topic-checkbox" onclick="updateProgress()">
+            <label for="topic-${index}"> Mark as Complete</label>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+    }
+
+    function updateProgress() {
+      const progressBar = document.getElementById("quick-sort-progress");
+      const checkboxes = document.querySelectorAll(".topic-checkbox");
+      const completedTopics = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+      const progressPercent = (completedTopics / topics.length) * 100;
+      progressBar.style.width = progressPercent + "%";
+    }
+
+    function resetProgress() {
+      const checkboxes = document.querySelectorAll(".topic-checkbox");
+      checkboxes.forEach(checkbox => checkbox.checked = false);
+      const progressBar = document.getElementById("quick-sort-progress");
+      progressBar.style.width = "0%";
+    }
+
+    createCards();
+  </script>
+
+</body>
+</html>

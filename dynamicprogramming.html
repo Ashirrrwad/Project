@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>DSA | Dynamic Programming </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .question-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .question-table th, .question-table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+    .question-table th {
+      background-color: #f2f2f2;
+    }
+    .progress-bar {
+      width: 100%;
+      background-color: #eee;
+      height: 20px;
+      margin: 20px 0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background-color: #4caf50;
+      transition: width 0.4s ease;
+    }
+    .note-input {
+      display: none;
+      width: 90%;
+      margin-top: 5px;
+    }
+    .emoji-btn {
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .bookmarked {
+      background-color: yellow;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Dynamic Programming - Practice Questions</h1>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+
+  <!-- Questions Table -->
+  <table class="question-table" id="questionsTable">
+    <thead>
+      <tr>
+        <th>✅</th>
+        <th>📋 Question</th>
+        <th>🔖 Bookmark</th>
+        <th>📝 Notes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Questions will be injected here -->
+    </tbody>
+  </table>
+
+  <script>
+    const questions = [
+      "What is Dynamic Programming?",
+      "Difference Between Dynamic Programming and Divide & Conquer?",
+      "Fibonacci Series using DP (Top-Down, Bottom-Up)",
+      "Longest Common Subsequence (LCS)",
+      "0/1 Knapsack Problem",
+      "Coin Change Problem",
+      "Matrix Chain Multiplication",
+      "Longest Increasing Subsequence (LIS)",
+      "Edit Distance Problem",
+      "Subset Sum Problem",
+    ];
+
+    let completedCount = 0;
+
+    const tableBody = document.querySelector("#questionsTable tbody");
+    const progressFill = document.getElementById("progressFill");
+
+    function updateProgress() {
+      const percent = (completedCount / questions.length) * 100;
+      progressFill.style.width = percent + "%";
+    }
+
+    function createQuestionRow(index, questionText) {
+      const row = document.createElement("tr");
+
+      // Tickbox
+      const tickCell = document.createElement("td");
+      const tickInput = document.createElement("input");
+      tickInput.type = "checkbox";
+      tickInput.addEventListener("change", (e) => {
+        if (e.target.checked) {
+          completedCount++;
+        } else {
+          completedCount--;
+        }
+        updateProgress();
+      });
+      tickCell.appendChild(tickInput);
+      row.appendChild(tickCell);
+
+      // Question Text
+      const questionCell = document.createElement("td");
+      questionCell.innerText = questionText;
+      row.appendChild(questionCell);
+
+      // Bookmark
+      const bookmarkCell = document.createElement("td");
+      const bookmarkBtn = document.createElement("span");
+      bookmarkBtn.innerText = "🔖";
+      bookmarkBtn.classList.add("emoji-btn");
+      bookmarkBtn.addEventListener("click", () => {
+        row.classList.toggle("bookmarked");
+      });
+      bookmarkCell.appendChild(bookmarkBtn);
+      row.appendChild(bookmarkCell);
+
+      // Notes
+      const notesCell = document.createElement("td");
+      const noteBtn = document.createElement("span");
+      noteBtn.innerText = "📝";
+      noteBtn.classList.add("emoji-btn");
+      const noteInput = document.createElement("textarea");
+      noteInput.className = "note-input";
+      notesCell.appendChild(noteBtn);
+      notesCell.appendChild(noteInput);
+
+      noteBtn.addEventListener("click", () => {
+        noteInput.style.display = noteInput.style.display === "block" ? "none" : "block";
+      });
+
+      row.appendChild(notesCell);
+
+      tableBody.appendChild(row);
+    }
+
+    // Populate the questions
+    questions.forEach((question, index) => {
+      createQuestionRow(index, question);
+    });
+  </script>
+
+</body>
+</html>
